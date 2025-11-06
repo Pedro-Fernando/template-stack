@@ -1,0 +1,19 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "declaration": true,
+    "outDir": "./dist",
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/tsconfig.tsbuildinfo",
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    "module": "commonjs",
+    "moduleResolution": "node"
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
+  "exclude": ["node_modules", "dist", "test", "**/*spec.ts"]
+}

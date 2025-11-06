@@ -1,0 +1,48 @@
+{
+  "name": "template-stack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "clean": "npm-run-all -s clean:*",
+    "clean:backend": "npm --workspace apps/backend run clean || exit 0",
+    "clean:frontend": "npm --workspace apps/frontend run clean || exit 0",
+    "clean:core": "npm --workspace packages/core run clean || exit 0",
+    "build": "npm-run-all -s build:core build:apps",
+    "build:core": "npm --workspace packages/core run build",
+    "build:apps": "npm-run-all -p build:backend build:frontend",
+    "build:backend": "npm --workspace apps/backend run build",
+    "build:frontend": "npm --workspace apps/frontend run build",
+    "dev": "npm-run-all -p dev:*",
+    "dev:core": "npm --workspace packages/core run dev",
+    "dev:backend": "npm --workspace apps/backend run start:dev",
+    "dev:frontend": "npm --workspace apps/frontend run dev",
+    "lint": "npm-run-all -p lint:*",
+    "lint:backend": "npm --workspace apps/backend run lint",
+    "lint:frontend": "npm --workspace apps/frontend run lint",
+    "lint:core": "npm --workspace packages/core run lint",
+    "format": "npm-run-all -p format:*",
+    "format:backend": "npm --workspace apps/backend run format",
+    "format:frontend": "npm --workspace apps/frontend run format",
+    "format:core": "npm --workspace packages/core run format"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@types/node": "^24.10.0",
+    "@typescript-eslint/eslint-plugin": "^8.46.3",
+    "@typescript-eslint/parser": "^8.46.3",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^16.5.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "typescript-eslint": "^8.46.3"
+  }
+}
