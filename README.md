@@ -1,13 +1,13 @@
-# 🚀 Guia de Inicialização — Template Stack
+# 🧱 Template Stack — Monorepo Base (NestJS + React + Core TS)
 
-Este documento explica **passo a passo** como subir o monorepo `template-stack`, contendo:
-- **Backend (NestJS)**
-- **Frontend (Vite + React + Tailwind)**
-- **Core (TypeScript puro)**
+Este repositório serve como **template base** para criação de novos projetos utilizando:
+- 🧠 **Core:** TypeScript puro (domínio, entidades, casos de uso)
+- ⚙️ **Backend:** NestJS (API REST)
+- 💻 **Frontend:** React + Vite + TailwindCSS
 
 ---
 
-## 🧱 Estrutura
+## 🚀 Estrutura de Pastas
 
 ```
 template-stack/
@@ -16,12 +16,13 @@ template-stack/
 │   └── frontend/     ← App React + Vite
 ├── packages/
 │   └── core/         ← Domínio compartilhado (TS puro + uuid)
-└── package.json      ← scripts e workspaces globais
+├── package.json      ← scripts globais (npm-run-all)
+└── tsconfig.base.json
 ```
 
 ---
 
-## 🧰 Pré-requisitos
+## ⚙️ Pré-requisitos
 
 | Requisito | Versão mínima |
 |------------|----------------|
@@ -29,7 +30,7 @@ template-stack/
 | npm        | 10.x |
 | Git        | qualquer |
 
-Verifique se estão instalados:
+Verifique:
 ```bash
 node -v
 npm -v
@@ -38,111 +39,105 @@ git --version
 
 ---
 
-## ⚙️ 1️⃣ Instalar dependências
+## 🧰 Instalação do Template
 
-Na **raiz do projeto**, execute:
+### 1️⃣ Instalar dependências
 ```bash
 npm install
 ```
 
-Isso instalará todas as dependências de **backend**, **frontend** e **core**.
-
----
-
-## ⚙️ 2️⃣ Criar arquivos `.env`
-
-Os `.env` não são versionados. Crie-os a partir dos modelos `.env.example`:
-
+### 2️⃣ Criar arquivos `.env`
+Copie os arquivos de exemplo:
 ```bash
 cp .env.example .env
 cp apps/backend/.env.example apps/backend/.env
 cp apps/frontend/.env.example apps/frontend/.env
 ```
 
-Exemplo de `.env` do **frontend**:
-```bash
-VITE_APP_NAME="Template Stack"
-VITE_API_URL=http://localhost:3000
-VITE_PORT=5173
-```
-
-Exemplo de `.env` do **backend**:
-```bash
-PORT=3000
-ALLOW_ORIGIN=http://localhost:5173
-```
-
----
-
-## ⚙️ 3️⃣ Rodar o ambiente de desenvolvimento
-
-Na raiz do projeto:
+### 3️⃣ Rodar ambiente de desenvolvimento
 ```bash
 npm run dev
 ```
-
-Isso executa **todos os apps em paralelo**:
-- 🧠 **Core:** em modo watch (TypeScript puro)
-- ⚙️ **Backend:** NestJS em `http://localhost:3000`
-- 💻 **Frontend:** Vite + React em `http://localhost:5173`
+- ⚙️ Backend → http://localhost:3000  
+- 💻 Frontend → http://localhost:5173  
 
 ---
 
-## ⚙️ 4️⃣ Build de produção
+## 🏗️ Criar novo projeto a partir do template
 
-Para compilar todos os projetos:
+Use os scripts incluídos para gerar uma cópia limpa:
+
+### ▶️ Terminal
 ```bash
-npm run build
+./create-app.sh meu-novo-projeto
 ```
 
-Os resultados ficam em:
-```
-apps/backend/dist/
-apps/frontend/dist/
-packages/core/dist/
-```
+Esses scripts:
+- copiam o template;
+- removem `.git` e criam novo repositório;
+- atualizam `package.json` com o novo nome;
+- criam `.env` com base nos exemplos;
+- instalam dependências automaticamente.
 
----
-
-## 🧹 5️⃣ Limpar builds
-
-Para limpar os diretórios `dist/` de todos os workspaces:
+Após a execução:
 ```bash
-npm run clean
+cd ../meu-novo-projeto
+npm run dev
 ```
 
 ---
 
-## 🧪 6️⃣ Testar lint e formatação
+## 🧩 Scripts Globais
 
-Executa ESLint e Prettier em todo o monorepo:
+| Comando | Descrição |
+|----------|------------|
+| `npm run dev` | Executa frontend + backend + core em paralelo |
+| `npm run build` | Gera build de produção |
+| `npm run clean` | Limpa diretórios `dist/` |
+| `npm run lint` | Roda ESLint em todo o monorepo |
+| `npm run format` | Formata o código com Prettier |
+
+---
+
+## 🧪 Lint e Formatação
+
 ```bash
 npm run lint
 npm run format
 ```
 
----
-
-## ✅ Resumo rápido dos comandos principais
-
-| Comando | Descrição |
-|----------|------------|
-| `npm run dev` | Roda backend, frontend e core em modo dev |
-| `npm run build` | Compila todos os projetos |
-| `npm run clean` | Remove os diretórios `dist/` |
-| `npm run lint` | Executa ESLint em todos os workspaces |
-| `npm run format` | Formata o código com Prettier |
+Caso precise ignorar arquivos de teste no backend:
+```
+eslint --ext .ts src --ignore-pattern 'src/**/*.spec.ts'
+```
 
 ---
 
-## 📚 Informações adicionais
+## 🧠 Dicas
 
-- O nome da aplicação vem de `VITE_APP_NAME` no `.env` do frontend.
-- O frontend usa `import.meta.env` para acessar variáveis.
-- O backend lê variáveis com `@nestjs/config` (via `.env`).
+- O **nome da aplicação** vem de `VITE_APP_NAME` no `.env` do frontend.
+- O **backend** usa `@nestjs/config` para ler `.env`.
+- O **core** é TypeScript puro, apenas com dependência `uuid`.
+
+---
+## 📦 Publicação e Deploy
+
+1. Rode o build:
+   ```bash
+   npm run build
+   ```
+2. O resultado ficará em:
+   - `apps/backend/dist`
+   - `apps/frontend/dist`
+3. O backend pode ser executado com:
+   ```bash
+   node dist/main.js
+   ```
 
 ---
 
-🧠 **Autor:** Pedro Fernando  
-📦 **Licença:** MIT  
-📅 **Última atualização:** 2025-11-06
+## 📜 Licença e Autor
+
+- 🧠 Autor: **Pedro Fernando**  
+- 📄 Licença: MIT  
+- 📅 Atualizado em: 2025-11-06
